@@ -1,0 +1,43 @@
+flowchart TB
+    subgraph User
+        A[CQL Schema File]
+    end
+    
+    subgraph "Frontend (React/TypeScript)"
+        B[Upload Component]
+        C[Schema Preview]
+        D[Table Selection]
+        E[NoSQLBench Config]
+        F[Download Component]
+    end
+    
+    subgraph "Backend (FastAPI)"
+        G[Schema Parser]
+        H[YAML Generator]
+        I[API Endpoints]
+    end
+    
+    subgraph "Output"
+        J[NoSQLBench YAML Files]
+    end
+    
+    A -->|Upload| B
+    B -->|Send to API| I
+    I -->|Process| G
+    G -->|Parse & Extract| C
+    C -->|Select Tables| D
+    D -->|Configure| E
+    E -->|Request YAML| I
+    I -->|Generate| H
+    H -->|Return ZIP| F
+    F -->|Download| J
+    
+    classDef frontend fill:#42a5f5,stroke:#0d47a1,color:white;
+    classDef backend fill:#66bb6a,stroke:#2e7d32,color:white;
+    classDef user fill:#ffca28,stroke:#f57f17,color:black;
+    classDef output fill:#ef5350,stroke:#b71c1c,color:white;
+    
+    class A user;
+    class B,C,D,E,F frontend;
+    class G,H,I backend;
+    class J output;
